@@ -6,7 +6,6 @@ namespace TomasProj.Services
     {
         public string GetPrefferedOutputFormat(string stringValues)
         {
-            //string? stringValues = headerDictionary["Accept"].FirstOrDefault();
             return stringValues.Contains("json")
                     || stringValues.Contains("*/*")
                         ? MediaTypeNames.Application.Json

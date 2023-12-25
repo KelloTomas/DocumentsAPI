@@ -32,9 +32,6 @@ namespace TomasProj
             app.UseAuthorization();
 
             app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
-            app.MapControllerRoute(
                 name: "Documents",
                 pattern: "{controller=Documents}/{action=Index}/{id?}");
 
