@@ -4,7 +4,7 @@ namespace TomasProj.Services
 {
     public static class DocumetStorageDataInit
     {
-        public static Documents Documents
+        public static List<Document> Documents
         {
             get
             {

@@ -1,11 +1,17 @@
 ﻿using System.Xml.Linq;
 
+using MessagePack;
+
 namespace TomasProj.Models
 {
+    [MessagePackObject]
     public class Document
     {
+        [Key(0)]
         public string Id { get; set; }
+        [Key(1)]
         public List<string> Tags { get; set; } = new();
+        [Key(2)]
         public Dictionary<string, string> Data { get; set; } = new();
 
         public void Update(Document updatedDocument)

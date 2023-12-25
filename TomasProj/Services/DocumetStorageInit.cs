@@ -4,6 +4,6 @@ namespace TomasProj.Services
 {
     public class DocumetStorageInit : IDocumentStorageInit
     {
-        public Documents Documents => DocumetStorageDataInit.Documents;
+        public List<Document> Documents => DocumetStorageDataInit.Documents;
     }
 }

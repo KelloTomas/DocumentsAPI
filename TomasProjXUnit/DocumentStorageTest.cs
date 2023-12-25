@@ -12,7 +12,7 @@ namespace TomasProjXUnit
         {
             // Arrange
             var documentStorageInitMock = new Mock<IDocumentStorageInit>();
-            documentStorageInitMock.Setup(o => o.Documents).Returns(new Documents());
+            documentStorageInitMock.Setup(o => o.Documents).Returns(new List<Document>());
             var documentStorage = new DocumentStorage(documentStorageInitMock.Object);
 
             // Act
@@ -43,7 +43,7 @@ namespace TomasProjXUnit
             // Arrange
             string testId = "new uniqe id 1";
             var documentStorageInitMock = new Mock<IDocumentStorageInit>();
-            documentStorageInitMock.Setup(o => o.Documents).Returns(new Documents());
+            documentStorageInitMock.Setup(o => o.Documents).Returns(new List<Document>());
             var documentStorage = new DocumentStorage(documentStorageInitMock.Object);
             var newDocument = new Document
             {

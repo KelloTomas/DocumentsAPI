@@ -1,3 +1,7 @@
+using Ark.Tools.AspNetCore.MessagePackFormatter;
+
+using Microsoft.AspNetCore.Mvc.Formatters;
+
 using TomasProj.Interfaces;
 using TomasProj.Services;
 
@@ -13,7 +17,18 @@ namespace TomasProj
             builder.Services.AddControllersWithViews();
             builder.Services.AddSingleton<IDocumentStorageInit, DocumetStorageInit>();
             builder.Services.AddSingleton<IDocumentStorage, DocumentStorage>();
-            builder.Services.AddSingleton<IFormatResolver, FormatResolver>();
+            builder.Services.AddControllers(options =>
+            {
+                // Add support for XML
+                options.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+                options.InputFormatters.Add(new XmlDataContractSerializerInputFormatter(options));
+
+                // Add support for MessagePack
+                options.OutputFormatters.Add(new MessagePackOutputFormatter());
+                options.InputFormatters.Add(new MessagePackInputFormatter());
+            });
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
 

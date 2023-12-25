@@ -10,4 +10,10 @@
     <Folder Include="Views\Shared\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Ark.Tools.AspNetCore.MessagePack" Version="4.9.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Xml" Version="2.2.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
 </Project>

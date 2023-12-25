@@ -4,6 +4,6 @@ namespace TomasProj.Services
 {
     public interface IDocumentStorageInit
     {
-        Documents Documents { get; }
+        List<Document> Documents { get; }
     }
 }

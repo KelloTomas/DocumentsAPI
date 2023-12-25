@@ -5,7 +5,7 @@ namespace TomasProj.Services
 {
     public class DocumentStorage : IDocumentStorage
     {
-        private readonly Documents _documents;
+        private readonly List<Document> _documents;
 
         public DocumentStorage(IDocumentStorageInit storage)
         {

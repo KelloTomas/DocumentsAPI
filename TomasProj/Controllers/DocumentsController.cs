@@ -1,25 +1,18 @@
-﻿using System;
-using System.Net.Mime;
-using System.Text.Json;
-using System.Xml.Linq;
-
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 using TomasProj.Interfaces;
 using TomasProj.Models;
-using TomasProj.Services;
 
 namespace TomasProj.Controllers
 {
+    [Produces("text/html", "application/json", "application/xml", "application/x-msgpack")]
     public class DocumentsController : Controller
     {
         private readonly IDocumentStorage _documentService;
-        private readonly IFormatResolver _formatResolver;
 
-        public DocumentsController(IDocumentStorage documentService, IFormatResolver formatResolver)
+        public DocumentsController(IDocumentStorage documentService)
         {
             _documentService = documentService;
-            this._formatResolver = formatResolver;
         }
 
         [HttpGet]
@@ -28,7 +21,7 @@ namespace TomasProj.Controllers
             var document = _documentService.GetById(id);
             return document == null
                 ? NotFound()
-                : GetFormatedResponse(document);
+                : Ok(document);
         }
 
         [HttpGet]
@@ -37,7 +30,7 @@ namespace TomasProj.Controllers
             var documents = _documentService.GetAll();
             return documents == null
                 ? NotFound()
-                : GetFormatedResponse(documents);
+                : Ok(documents);
         }
 
         [HttpPost]
@@ -56,7 +49,7 @@ namespace TomasProj.Controllers
 
             _documentService.AddOrUpdate(document);
 
-            return GetFormatedResponse(document);
+            return Ok(document);
         }
 
         [HttpPut]
@@ -69,37 +62,8 @@ namespace TomasProj.Controllers
 
             updatedDocument.Id = id;
             return _documentService.Update(updatedDocument)
-                ? GetFormatedResponse(updatedDocument)
+                ? Ok(updatedDocument)
                 : NotFound();
-        }
-
-        private IActionResult GetFormatedResponse(object obj)
-        {
-            string acceptHeader = _formatResolver.GetPrefferedOutputFormat(Request.Headers["Accept"].FirstOrDefault());
-            switch (acceptHeader)
-            {
-                case MediaTypeNames.Application.Json:
-                    return Content(JsonSerializer.Serialize(obj), MediaTypeNames.Application.Json, 200);
-                case MediaTypeNames.Application.Xml:
-                    XElement xmlString = obj switch
-                    {
-                        Documents documents
-                            => documents.GetDocumentsAsXElement(),
-                        Document document
-                            => document.GetXML(),
-                        _ => throw new ArgumentOutOfRangeException(),
-                    };
-                    return Content(xmlString.ToString(), MediaTypeNames.Application.Xml, 200);
-                default:
-                    return StatusCode(406, "Not Acceptable");
-            }
-        }
-
-        private IActionResult Content(string content, string type, int statusCode)
-        {
-            var ret = Content(content, type);
-            ret.StatusCode = statusCode;
-            return ret;
         }
     }
 }
